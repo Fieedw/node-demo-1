@@ -8,7 +8,7 @@ if (!port) {
   process.exit(1);
 }
 
-var server = http.createServer(function(request, response) {
+var server = http.createServer(function (request, response) {
   var parsedUrl = url.parse(request.url, true);
   var pathWithQuery = request.url;
   var queryString = "";
@@ -23,23 +23,41 @@ var server = http.createServer(function(request, response) {
 
   console.log("有个傻子发请求过来啦！路径（带查询参数）为：" + pathWithQuery);
 
-  if (path === "/") {
+  if (path === "/index.html") {
     response.statusCode = 200;
     response.setHeader("Content-Type", "text/html;charset=utf-8");
-    response.write(`
-    <!DOCTYPE html>
-    <head>
-    <link rel="stylesheet" href="/x">
-    </head>
-    <body>
-    <h1>标题</h1>
-    </body>
-    `);
+    const String = fs.readFileSync("public/index.html");
+    response.write(String);
     response.end();
-  } else if (path === "/x") {
+  } else if (path === "/main.js") {
+    response.statusCode = 200;
+    response.setHeader("Content-Type", "text/javascript;charset=utf-8");
+    response.write(fs.readFileSync("public/main.js"));
+    response.end();
+  } else if (path === "/style.css") {
     response.statusCode = 200;
     response.setHeader("Content-Type", "text/css;charset=utf-8");
-    response.write(`h1{color: red;}`);
+    response.write(fs.readFileSync("public/style.css"));
+    response.end();
+  } else if (path === "/2.js") {
+    response.statusCode = 200;
+    response.setHeader("Content-Type", "text/javascript;charset=utf-8");
+    response.write(fs.readFileSync("public/2.js"));
+    response.end();
+  } else if (path === "/3.html") {
+    response.statusCode = 200;
+    response.setHeader("Content-Type", "text/html;charset=utf-8");
+    response.write(fs.readFileSync("public/3.html"));
+    response.end();
+  } else if (path === "/4.xml") {
+    response.statusCode = 200;
+    response.setHeader("Content-Type", "text/xml;charset=utf-8");
+    response.write(fs.readFileSync("public/4.xml"));
+    response.end();
+  } else if (path === "/5.json") {
+    response.statusCode = 200;
+    response.setHeader("Content-Type", "text/json;charset=utf-8");
+    response.write(fs.readFileSync("public/5.json"));
     response.end();
   } else {
     response.statusCode = 404;
